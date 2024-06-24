@@ -3,7 +3,7 @@ CREATE OR REPLACE FUNCTION cargar_esJSON() RETURNS VOID AS $$
 BEGIN
 
 	TRUNCATE alfabeto;
-	INSERT INTO alfabeto (caracter) VALUES ('{'), ('}'), ('['), (']'), ('"'), (':'), (','), (' ');
+	INSERT INTO alfabeto (caracter) VALUES ('{'), ('}'), ('['), (']'), ('"'), (':'), (','), ('n'), ('u'), ('l'), ('t'), ('r'), ('e'), ('f'), ('a'), ('s'), ('w'), (' ');
 
 	TRUNCATE programa;
 	INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES

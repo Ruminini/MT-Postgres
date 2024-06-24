@@ -1,4 +1,5 @@
 CREATE OR REPLACE FUNCTION simuladorMT(cinta TEXT) RETURNS RECORD AS $$
+#variable_conflict use_variable
 DECLARE
     iter_limit INT := 1000;
     blanco CHAR(1) := 'B';
@@ -12,6 +13,13 @@ DECLARE
     happy_ending BOOLEAN;
 BEGIN
 	TRUNCATE traza_ejecucion;
+
+    FOREACH caracter IN ARRAY regexp_split_to_array(cinta, '')
+    LOOP
+        IF NOT EXISTS (SELECT 1 FROM alfabeto a WHERE a.caracter = caracter) THEN
+            RAISE EXCEPTION 'Caracter invalido: ''%''', caracter;
+        END IF;
+    END LOOP;
 
     WHILE TRUE LOOP
 
