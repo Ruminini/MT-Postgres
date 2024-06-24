@@ -1,5 +1,5 @@
 -- Validador de JSONs
-CREATE OR REPLACE FUNCTION cargar_esJSON() RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION json_validator() RETURNS VOID AS $$
 BEGIN
 
 	TRUNCATE alfabeto;
@@ -111,6 +111,3 @@ BEGIN
 	('q9', 'B', 'qf', 'B', 'R');
 END;
 $$ LANGUAGE plpgsql;
-
--- Ejemplo de uso:
--- SELECT ejecutar_esJSON('{"w" : {}, "w": ["", "", ""]}');
