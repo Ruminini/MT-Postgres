@@ -9,9 +9,9 @@ DECLARE
     desplazamiento CHAR(1);
     contador INT := 0;
     ret RECORD;
+    happy_ending BOOLEAN;
 BEGIN
 	TRUNCATE traza_ejecucion;
-    PERFORM setval('traza_ejecucion_id_seq', 1, false);
 
     WHILE TRUE LOOP
 
@@ -19,8 +19,8 @@ BEGIN
 
         RAISE NOTICE '% % % % %', contador, cabezal, estado, caracter, cinta;
 
-        INSERT INTO traza_ejecucion (cabezal, estado, caracter, cinta)
-        VALUES ( cabezal, estado, caracter, cinta);
+        INSERT INTO traza_ejecucion (id, cabezal, estado, caracter, cinta)
+        VALUES ( contador, cabezal, estado, caracter, cinta);
 
         IF estado = estado_final THEN
             RAISE NOTICE 'Finalizacion por estado final';
@@ -57,7 +57,14 @@ BEGIN
             RAISE EXCEPTION 'Limite de iteraciones alcanzado';
         END IF;
     END LOOP;
-    ret := (estado IS NOT NULL AND estado = 'qf', contador, cinta);
+
+    happy_ending := (estado IS NOT NULL AND estado = 'qf');
+
+    UPDATE traza_ejecucion
+    SET final = happy_ending
+    WHERE id = contador;
+
+    ret := (happy_ending, contador, cinta);
     RETURN ret;
 END;
 $$ LANGUAGE plpgsql;

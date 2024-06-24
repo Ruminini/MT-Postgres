@@ -12,11 +12,12 @@ CREATE TABLE programa (
 );
 
 CREATE TABLE traza_ejecucion (
-    id SERIAL PRIMARY KEY,
+    id INT PRIMARY KEY,
     cabezal INT,
     estado VARCHAR(8),
     caracter VARCHAR(8),
-    cinta TEXT
+    cinta TEXT,
+    final BOOLEAN
 );
 
 CREATE TABLE alfabeto (
