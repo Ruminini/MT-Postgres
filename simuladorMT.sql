@@ -1,23 +1,19 @@
-CREATE OR REPLACE FUNCTION simuladorMT(cinta TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION simuladorMT(cinta TEXT) RETURNS RECORD AS $$
 DECLARE
     iter_limit INT := 1000;
     blanco CHAR(1) := 'B';
     cabezal INT := 1;
     estado VARCHAR(8) := 'q0';
+    estado_final CHAR(2) := 'qf';
     caracter VARCHAR(8);
     desplazamiento CHAR(1);
-    estado_final BOOLEAN := FALSE;
     contador INT := 0;
+    ret RECORD;
 BEGIN
 	TRUNCATE traza_ejecucion;
     PERFORM setval('traza_ejecucion_id_seq', 1, false);
 
-    WHILE NOT estado_final LOOP
-
-        IF estado = 'qf' OR estado IS NULL THEN
-            RAISE NOTICE 'Finalizacion por: %', estado;
-            estado_final := TRUE;
-        END IF;
+    WHILE TRUE LOOP
 
         caracter := SUBSTRING(cinta FROM cabezal FOR 1);
 
@@ -26,10 +22,20 @@ BEGIN
         INSERT INTO traza_ejecucion (cabezal, estado, caracter, cinta)
         VALUES ( cabezal, estado, caracter, cinta);
 
+        IF estado = estado_final THEN
+            RAISE NOTICE 'Finalizacion por estado final';
+            EXIT;
+        END IF;
+
         SELECT p.estado_nue, p.caracter_nue, p.desplazamiento
         INTO estado, caracter, desplazamiento
         FROM programa p
         WHERE p.estado_ori = estado AND p.caracter_ori = caracter;
+
+        IF estado IS NULL THEN
+            RAISE NOTICE 'Finalizacion por estado o caracter invalido.';
+            EXIT;
+        END IF;
 
         cinta := OVERLAY(cinta PLACING caracter FROM cabezal);
 
@@ -47,10 +53,11 @@ BEGIN
         END IF;
 
         contador := contador + 1;
-
         IF contador = iter_limit THEN
             RAISE EXCEPTION 'Limite de iteraciones alcanzado';
         END IF;
     END LOOP;
+    ret := (estado IS NOT NULL AND estado = 'qf', contador, cinta);
+    RETURN ret;
 END;
 $$ LANGUAGE plpgsql;
