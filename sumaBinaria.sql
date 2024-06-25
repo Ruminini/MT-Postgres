@@ -7,7 +7,7 @@ BEGIN
 	TRUNCATE programa;
 	INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
 
-    -- Vaidar string
+    -- Validar string
     ('q0', '0', 'q0b', '0', 'R'),
     ('q0', '1', 'q0b', '1', 'R'),
     ('q0b', '0', 'q0b', '0', 'R'),
