@@ -57,6 +57,11 @@ BEGIN
             cinta := blanco || cinta;
         ELSIF cabezal > LENGTH(cinta) THEN
             cinta := cinta || blanco;
+        ELSIF cabezal = 2 AND blanco = SUBSTRING(cinta FROM 1 FOR 1) THEN
+            cinta := SUBSTRING(cinta FROM 2);
+            cabezal := 1;
+        ELSIF cabezal = LENGTH(cinta) -1 AND blanco = SUBSTRING(cinta FROM LENGTH(cinta) FOR 1) THEN
+            cinta := SUBSTRING(cinta FROM 1 FOR LENGTH(cinta) -1);
         END IF;
 
         contador := contador + 1;

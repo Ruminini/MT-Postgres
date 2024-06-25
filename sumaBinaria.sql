@@ -8,9 +8,13 @@ BEGIN
 	INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
 
     -- Vaidar string
-    ('q0', '0', 'q0', '0', 'R'),
-    ('q0', '1', 'q0', '1', 'R'),
-    ('q0', '+', 'q1', '+', 'R'),
+    ('q0', '0', 'q0b', '0', 'R'),
+    ('q0', '1', 'q0b', '1', 'R'),
+    ('q0b', '0', 'q0b', '0', 'R'),
+    ('q0b', '1', 'q0b', '1', 'R'),
+    ('q0b', '+', 'q1b', '+', 'R'),
+    ('q1b', '0', 'q1', '0', 'R'),
+    ('q1b', '1', 'q1', '1', 'R'),
     ('q1', '0', 'q1', '0', 'R'),
     ('q1', '1', 'q1', '1', 'R'),
     ('q1', '=', 'q2', '=', 'R'),
@@ -106,13 +110,13 @@ BEGIN
 
     -- Buscar el ultimo bit del a con 0 y b terminado
     ('qf5', '_', 'qf5', '_', 'L'),
-    ('qf5', 'B', 'q20', '=', 'R'),
+    ('qf5', 'B', 'q20', 'B', 'R'),
     ('qf5', '0', 'q6', '_', 'R'),
     ('qf5', '1', 'q11', '_', 'R'),
 
     -- Buscar el ultimo bit del a con 1 y b terminado
     ('qf10', '_', 'qf10', '_', 'L'),
-    ('qf10', 'B', 'q27', '=', 'R'),
+    ('qf10', 'B', 'q27', 'B', 'R'),
     ('qf10', '0', 'q11', '_', 'R'),
     ('qf10', '1', 'q13', '_', 'R'),
 
@@ -138,7 +142,7 @@ BEGIN
     ('q23', '_', 'q23', '_', 'L'),
     ('q23', '0', 'q24', '0', 'R'),
     ('q23', '1', 'q24', '1', 'R'),
-    ('q23', '=', 'q24', '=', 'R'),
+    ('q23', 'B', 'q24', 'B', 'R'),
 
     -- Escribir 0 y volver
     ('q24', '_', 'q20', '0', 'R'),
@@ -152,15 +156,16 @@ BEGIN
     ('q26', '_', 'q26', '_', 'L'),
     ('q26', '0', 'q27', '0', 'R'),
     ('q26', '1', 'q27', '1', 'R'),
-    ('q26', '=', 'q27', '=', 'R'),
+    ('q26', 'B', 'q27', 'B', 'R'),
 
     -- Escribir 1 y volver
     ('q27', '_', 'q20', '1', 'R'),
 
     -- Borrar hasta el resultado
     ('qfin', '_', 'qfin', 'B', 'L'),
-    ('qfin', '0', 'qf', '0', 'R'),
-    ('qfin', '1', 'qf', '1', 'R');
+    ('qfin', 'B', 'qf', 'B', 'L'),
+    ('qfin', '0', 'qf', '0', 'L'),
+    ('qfin', '1', 'qf', '1', 'L');
 
 END;
 $$ LANGUAGE plpgsql;
