@@ -1,8 +1,7 @@
-Trabajo práctico final de Teoría de Computación, Universidad Nacional General Sarmiento, primer semestre 2024.
+Simulador Maquina de Turing en PostgreSQL.
+Teoría de Computación, Universidad Nacional General Sarmiento, primer semestre 2024.
 
 [Consigna del trabajo](consigna.pdf)
-
-Este trabajo práctico tiene como objetivo desarrollar un simulador de máquinas de Turing. Este simulador debe ser capaz de tomar la definición de una máquina de Turing, ejecutarla con un _string_ de entrada y registrar cada uno de los movimientos en una base de datos para análisis posterior. Para la implementación, se utilizará _PostgreSQL_ con programación en _pl/pgsql_. Es esencial preparar el entorno adecuado y garantizar que todas las dependencias necesarias estén instaladas, incluyendo Docker para el manejo de contenedores donde se ejecutará _PostgreSQL_. A continuación, se describen los pasos para configurar el entorno necesario para este proyecto.
 
 ### Instalamos Postgres en Docker
 ```bash
@@ -22,6 +21,7 @@ En cada uno de los siguientes archivos seleccionamos **▷ Run on active connect
  - [suma_binaria.sql](suma_binaria.sql)
  - [palindrome.sql](palindrome.sql)
  - [descripciones.sql](descripciones.sql)
+ - [validateJson.sql](validateJson.sql)
 
 ### Nos conectamos al container y luego a postgres
 ```bash
@@ -87,3 +87,18 @@ descripciones|-
  BxqB
  xfqB
  qfBB
+
+## Validar JSONs
+
+### Usando simuadorMT();
+```sql
+SELECT str_num_json_validator();
+SELECT simuladorMT('{"nombre": "Tobias", "año": 2024}');
+SELECT json_validator();
+SELECT * FROM simuladorMT('{"wwwwww": "wwwwww", "www": 0000}');
+```
+
+### Usando validateJson();
+```sql
+SELECT * FROM validate_json('{"nombre": "Tobias", "año": 2024}');
+```

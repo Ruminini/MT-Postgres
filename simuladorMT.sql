@@ -12,6 +12,7 @@ DECLARE
 BEGIN
 	TRUNCATE traza_ejecucion;
     cinta := regexp_replace(cinta, E'[\\n\\r\\t]+', ' ', 'g' );
+    cinta := regexp_replace(cinta, '^B+|B+$', '', 'g');
     contador := 0;
     FOREACH caracter IN ARRAY regexp_split_to_array(cinta, '')
     LOOP
@@ -66,7 +67,8 @@ BEGIN
 
         contador := contador + 1;
         IF contador = iter_limit THEN
-            RAISE EXCEPTION 'Limite de iteraciones alcanzado';
+            RAISE NOTICE 'Limite de iteraciones alcanzado';
+            EXIT;
         END IF;
     END LOOP;
 
@@ -75,9 +77,6 @@ BEGIN
     UPDATE traza_ejecucion
     SET final = happy_ending
     WHERE id = contador;
-
     RAISE NOTICE '% % % % %', contador, cabezal, estado, caracter, cinta;
-    -- ret := (happy_ending, contador, cinta);
-    -- RETURN;
 END;
 $$ LANGUAGE plpgsql;
