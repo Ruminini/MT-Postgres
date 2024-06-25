@@ -1,7 +1,9 @@
-Simulador Maquina de Turing en PostgreSQL.
-Teoría de Computación, Universidad Nacional General Sarmiento, primer semestre 2024.
+# Simulador Maquina de Turing en PostgreSQL.
+**Teoría de Computación, Universidad Nacional General Sarmiento, primer semestre 2024.**
 
 [Consigna del trabajo](consigna.pdf)
+
+## Instalacion y configuración
 
 ### Instalamos Postgres en Docker
 ```bash
@@ -28,13 +30,14 @@ En cada uno de los siguientes archivos seleccionamos **▷ Run on active connect
 docker exec -it postgres bash
 psql -U postgres
 ```
-
+## Uso
+Luego de acceder a Postgres e inicializar todo
 ### Cargamos el programa deseado:
 ```sql
 SELECT str_num_json_validator();
 SELECT json_validator();
 SELECT suma_binaria();
-SELECT palindrome();
+SELECT palindrome(); -- Para el ejemplo usamos este
 ```
 
 ### Ejecutamos la simulación con un string de entrada
