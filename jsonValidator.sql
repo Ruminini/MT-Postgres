@@ -3,7 +3,7 @@ CREATE OR REPLACE FUNCTION json_validator() RETURNS VOID AS $$
 BEGIN
 
 	TRUNCATE alfabeto;
-	INSERT INTO alfabeto (caracter) VALUES ('{'), ('}'), ('['), (']'), ('"'), (':'), (','), ('n'), ('u'), ('l'), ('t'), ('r'), ('e'), ('f'), ('a'), ('s'), ('w'), (' ');
+	INSERT INTO alfabeto (caracter) VALUES ('{'), ('}'), ('['), (']'), ('"'), (':'), (','), ('n'), ('u'), ('l'), ('t'), ('r'), ('e'), ('f'), ('a'), ('s'), ('w'), ('0'), (' ');
 
 	TRUNCATE programa;
 	INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
@@ -17,6 +17,7 @@ BEGIN
 	('q0', 't', 'qtrue', '_', 'R'),
 	('q0', 'f', 'qfalse', '_', 'R'),
 	('q0', 'n', 'qnull', '_', 'R'),
+	('q0', '0', 'qn', '_', 'R'),
 
 	-- Llave abierta
 	('q{', '}', 'q}', '_', 'L'),
@@ -46,6 +47,7 @@ BEGIN
 
 	-- Marcar valido hasta llave abierta
 	('q}', 'w', 'q}', '_', 'L'),
+	('q}', '0', 'q}', '_', 'L'),
 	('q}', '"', 'q}', '_', 'L'),
 	('q}', ':', 'q}', '_', 'L'),
 	('q}', ' ', 'q}', '_', 'L'),
@@ -106,8 +108,18 @@ BEGIN
 	('qull', 'l', 'qll', '_', 'R'),
 	('qll', 'l', 'q6', '_', 'L'),
 
+	-- Validar numero
+	('qn', '0', 'qn', '_', 'R'),
+	('qn', ',', 'q6', ',', 'L'),
+	('qn', ' ', 'q6', ' ', 'L'),
+	('qn', '}', 'q6', '}', 'L'),
+	('qn', ']', 'q6', ']', 'L'),
+	('qn', 'B', 'q6', 'B', 'L'),
+
 	-- Validar que no haya quedado nada sin leer
 	('q9', '_', 'q9', '_', 'R'),
 	('q9', 'B', 'qf', 'B', 'R');
 END;
 $$ LANGUAGE plpgsql;
+
+SELECT json_validator();
