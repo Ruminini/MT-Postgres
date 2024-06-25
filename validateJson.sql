@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION validate_json(_cinta TEXT)
-RETURNS TABLE (happy_ending BOOLEAN, contador INT, cinta TEXT) AS $$
+RETURNS TABLE (qf BOOLEAN, contador INT, cinta TEXT) AS $$
 BEGIN
     PERFORM str_num_json_validator();
     SELECT (simuladorMT(_cinta)).cinta INTO _cinta;

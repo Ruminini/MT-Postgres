@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION simuladorMT(OUT happy_ending BOOLEAN, OUT contador INT, INOUT cinta TEXT) RETURNS RECORD AS $$
+CREATE OR REPLACE FUNCTION simuladorMT(OUT qf BOOLEAN, OUT contador INT, INOUT cinta TEXT) RETURNS RECORD AS $$
 #variable_conflict use_variable
 DECLARE
     iter_limit INT := 10000;
@@ -72,10 +72,10 @@ BEGIN
         END IF;
     END LOOP;
 
-    happy_ending := (estado IS NOT NULL AND estado = 'qf');
+    qf := (estado IS NOT NULL AND estado = 'qf');
 
     UPDATE traza_ejecucion
-    SET final = happy_ending
+    SET final = qf
     WHERE id = contador;
     RAISE NOTICE '% % % % %', contador, cabezal, estado, caracter, cinta;
 END;

@@ -39,17 +39,15 @@ SELECT palindrome();
 
 ### Ejecutamos la simulación con un string de entrada
 ```sql
-SELECT simuladorMT('neuquen');
+SELECT * FROM simuladorMT('neuquen');
 ```
 Obtendremos como resultado
-```sql
- simuladormt
--------------
- (t,36,BB)
-```
- 1. El primer valor (t) indica si la maquina aceptó (t) o rechazo (f) el string de entrada.
- 2. El segundo valor (36) indica la cantidad de pasos que se realizaron.
- 3. El tercer valor (BB) muestra como quedo la cinta.
+ qf | contador | cinta
+----|----------|-------
+ t  |       36 | BB
+ 1. **'qf'** indica si la maquina aceptó (t) o rechazo (f) el string de entrada.
+ 2. **'contador'** indica la cantidad de pasos que se realizaron.
+ 3. **'cinta'** muestra como quedo la cinta al finalizar la maquina.
 
 ### Observamos cada uno de los pasos de la simulación
 ```sql
