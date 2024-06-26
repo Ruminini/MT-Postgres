@@ -170,4 +170,4 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT simuladorMT('011+101=');
+SELECT suma_binaria();
