@@ -17,21 +17,21 @@ BEGIN
 	TRUNCATE programa;
 
     FOR A IN SELECT caracter FROM alfabeto LOOP
+        INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
+        ('q0', A.caracter, 'x'||A.caracter,  'B', 'R'),     -- Agarra el primer char y va a buscar el ultimo con chache
+        ('x'||A.caracter, 'B', 'xf'||A.caracter,  'B', 'L'),-- Si encuentra B termino el string
+        ('xf'||A.caracter, A.caracter, 'qs', 'B', 'L'),     -- Checkea que el ultimo caracter sea el guardado
+        ('xf'||A.caracter, 'B', 'qf', 'B', 'L'),            -- Si esta en blanco tenia largo impar
+        ('qs', A.caracter, 'qs', A.caracter, 'L');          -- Con cualquier letra va a la izq
         FOR B IN SELECT caracter FROM alfabeto LOOP
             INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
-            ('x'||A.caracter, B.caracter, 'x'||A.caracter, B.caracter, 'R');
+            ('x'||A.caracter, B.caracter, 'x'||A.caracter, B.caracter, 'R'); -- Con cualquier letra va a la derecha
         END LOOP;
-        INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
-        ('x'||A.caracter, 'B', 'xf'||A.caracter,  'B', 'L'),
-        ('xf'||A.caracter, A.caracter, 'qs', 'B', 'L'),
-        ('xf'||A.caracter, 'B', 'qf', 'B', 'L'),
-        ('q0', A.caracter, 'x'||A.caracter,  'B', 'R'),
-        ('qs', A.caracter, 'qs', A.caracter, 'L');
     END LOOP;
 
 	INSERT INTO programa (estado_ori, caracter_ori, estado_nue, caracter_nue, desplazamiento) VALUES
-    ('qs', 'B', 'q0', 'B', 'R'),
-    ('q0', 'B', 'qf', 'B', 'R');
+    ('qs', 'B', 'q0', 'B', 'R'), -- Cuando llega al inicio vuelve a buscar primer char
+    ('q0', 'B', 'qf', 'B', 'R'); -- Si el primer caracter es B termino de recorrerla o string vacia
 
     -- ( 10 + 27 + 26 + 36 ) = 99
     -- 99 * ( 99 + 5 ) + 2 = 10298

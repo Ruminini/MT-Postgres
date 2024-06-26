@@ -70,6 +70,7 @@ BEGIN
 	('q[', 't', 'qtrue', '_', 'R'),
 	('q[', 'f', 'qfalse', '_', 'R'),
 	('q[', 'n', 'qnull', '_', 'R'),
+	('q[', '0', 'qn', '_', 'R'),
 
 	-- Buscar siguiente en arreglo
 	('q7', ' ', 'q7', ' ', 'R'),
